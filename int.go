@@ -11,7 +11,13 @@ type IntValue struct {
 	Error error
 }
 
-func ToInt(value interface{}, defaultValue int) *IntValue {
+var DefaultInt = 0
+
+func ToInt(value interface{}) *IntValue {
+	return ToIntd(value, DefaultInt)
+}
+
+func ToIntd(value interface{}, defaultValue int) *IntValue {
 	r := &IntValue{
 		A: defaultValue,
 	}
