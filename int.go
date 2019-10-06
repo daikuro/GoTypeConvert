@@ -4,8 +4,6 @@ import (
 	"strconv"
 )
 
-var lastError error
-
 type IntValue struct {
 	A     int // answer
 	Error error
