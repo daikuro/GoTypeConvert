@@ -22,6 +22,11 @@ func ToArrayStringd(value interface{}, defaultValue *ArrayStringValue) *ArrayStr
 	switch t := value.(type) {
 	case []string:
 		r.A = t
+	case []interface{}:
+		r.A = make([]string, len(t))
+		for i, value := range t {
+			r.A[i] = ToStringd(value, "")
+		}
 	default:
 		r = defaultValue
 	}

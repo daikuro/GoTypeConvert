@@ -10,3 +10,12 @@ func ExampleToArrayString() {
 	// [aaa]
 	// []string
 }
+
+func ExampleToArrayString2() {
+	a := ToArrayString([]interface{}{"aaa", "2"})
+	fmt.Println(a.A)
+	fmt.Println(a.T)
+	// Output:
+	// [aaa 2]
+	// []interface {}
+}
