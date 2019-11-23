@@ -6,6 +6,64 @@ import (
 	"time"
 )
 
+func ExampleMapToInterfaceNotUseCast() {
+	type User struct {
+		Name string
+	}
+	v := &User{}
+	MapToInterface(v, map[string]interface{}{
+		"Name": "testUser",
+	})
+	fmt.Println(v.Name)
+	// Output:
+	// testUser
+}
+
+func ExampleMapToInterfaceOverrideValue() {
+	type User struct {
+		Name string
+	}
+	v := &User{
+		Name: "oldUserName",
+	}
+	MapToInterface(v, map[string]interface{}{
+		"Name": "testUser",
+	})
+	fmt.Println(v.Name)
+	// Output:
+	// testUser
+}
+
+func ExampleMapToInterfaceNotOverrideValue() {
+	type User struct {
+		Name string
+		Addr string
+	}
+	v := &User{
+		Name: "oldUserName",
+		Addr: "oldAddr",
+	}
+	MapToInterface(v, map[string]interface{}{
+		"Name": "testUser",
+	})
+	fmt.Println(v.Addr)
+	// Output:
+	// oldAddr
+}
+
+func ExampleMapToInterfaceInt() {
+	type User struct {
+		Count int
+	}
+	v := &User{}
+	MapToInterface(v, map[string]interface{}{
+		"Count": 100,
+	})
+	fmt.Println(v.Count)
+	// Output:
+	// 100
+}
+
 func ExampleMapToInterface() {
 	type User struct {
 		Name    string
