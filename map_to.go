@@ -2,19 +2,16 @@ package typeconv
 
 import "reflect"
 
-func MapToInterface(o interface{}, m map[string]interface{}) interface{} {
-	t := reflect.TypeOf(o).Elem()
-	p := reflect.New(t)
-	v := reflect.Indirect(p)
+func MapToInterface(p interface{}, m map[string]interface{}) interface{} {
+	t := reflect.TypeOf(p).Elem()
+	v := reflect.Indirect(reflect.ValueOf(p))
 	num := t.NumField()
 	for i := 0; i < num; i++ {
-		field := t.Field(i)
-		value := v.Field(i)
-		name := field.Name
-		if m[name] == nil {
+		newValue := m[t.Field(i).Name]
+		if newValue == nil {
 			continue
 		}
-		value.Set(reflect.ValueOf(m[name]))
+		v.Field(i).Set(reflect.ValueOf(newValue))
 	}
-	return p.Interface()
+	return p
 }
