@@ -11,11 +11,15 @@ type IntValue struct {
 
 var DefaultInt = 0
 
-func ToInt(value interface{}) *IntValue {
-	return ToIntd(value, DefaultInt)
+func ToInt(value interface{}, defaultValue ...int) *IntValue {
+	if defaultValue != nil && len(defaultValue) > 0 {
+		d := defaultValue[0]
+		return toIntD(value, d)
+	}
+	return toIntD(value, DefaultInt)
 }
 
-func ToIntd(value interface{}, defaultValue int) *IntValue {
+func toIntD(value interface{}, defaultValue int) *IntValue {
 	r := &IntValue{
 		A: defaultValue,
 	}
