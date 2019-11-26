@@ -11,11 +11,17 @@ var DefaultArrayString = &ArrayStringValue{
 	A: []string{},
 }
 
-func ToArrayString(value interface{}) *ArrayStringValue {
-	return ToArrayStringd(value, DefaultArrayString)
+func ToArrayString(value interface{}, defaultValue ...[]string) *ArrayStringValue {
+	if defaultValue != nil && len(defaultValue) > 0 {
+		d := &ArrayStringValue{
+			A: defaultValue[0],
+		}
+		return toArrayString(value, d)
+	}
+	return toArrayString(value, DefaultArrayString)
 }
 
-func ToArrayStringd(value interface{}, defaultValue *ArrayStringValue) *ArrayStringValue {
+func toArrayString(value interface{}, defaultValue *ArrayStringValue) *ArrayStringValue {
 	r := &ArrayStringValue{
 		A: []string{},
 	}
