@@ -9,11 +9,15 @@ type Float64Value struct {
 
 var DefaultFloat64 = 0.0
 
-func ToFloat64(value interface{}) *Float64Value {
-	return ToFloat64d(value, DefaultFloat64)
+func ToFloat64(value interface{}, defaultValue ...float64) *Float64Value {
+	if defaultValue != nil && len(defaultValue) > 0 {
+		d := defaultValue[0]
+		return toFloat64d(value, d)
+	}
+	return toFloat64d(value, DefaultFloat64)
 }
 
-func ToFloat64d(value interface{}, defaultValue float64) *Float64Value {
+func toFloat64d(value interface{}, defaultValue float64) *Float64Value {
 	r := &Float64Value{
 		A: defaultValue,
 	}
