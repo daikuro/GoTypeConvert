@@ -9,7 +9,10 @@ type BoolValue struct {
 
 var DefaultBool = false
 
-func ToBool(value interface{}) *BoolValue {
+func ToBool(value interface{}, defaultValue ...bool) *BoolValue {
+	if len(defaultValue) > 0 {
+		return ToBoold(value, defaultValue[0])
+	}
 	return ToBoold(value, DefaultBool)
 }
 

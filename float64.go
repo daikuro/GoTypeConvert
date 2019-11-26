@@ -11,8 +11,7 @@ var DefaultFloat64 = 0.0
 
 func ToFloat64(value interface{}, defaultValue ...float64) *Float64Value {
 	if defaultValue != nil && len(defaultValue) > 0 {
-		d := defaultValue[0]
-		return toFloat64d(value, d)
+		return toFloat64d(value, defaultValue[0])
 	}
 	return toFloat64d(value, DefaultFloat64)
 }

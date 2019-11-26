@@ -8,7 +8,7 @@ type TimeValue struct {
 	NoValue bool
 }
 
-func ToTime(v interface{}) *TimeValue {
+func ToTime(v interface{}, defaultValue ...time.Time) *TimeValue {
 	r := &TimeValue{
 		NoValue: false,
 	}
@@ -16,6 +16,9 @@ func ToTime(v interface{}) *TimeValue {
 	case time.Time:
 		r.A = t
 	default:
+		if len(defaultValue) > 0 {
+			r.A = defaultValue[0]
+		}
 		r.NoValue = true
 	}
 

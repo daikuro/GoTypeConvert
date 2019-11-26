@@ -13,8 +13,7 @@ var DefaultInt = 0
 
 func ToInt(value interface{}, defaultValue ...int) *IntValue {
 	if defaultValue != nil && len(defaultValue) > 0 {
-		d := defaultValue[0]
-		return toIntD(value, d)
+		return toIntD(value, defaultValue[0])
 	}
 	return toIntD(value, DefaultInt)
 }
