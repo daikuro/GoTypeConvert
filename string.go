@@ -2,20 +2,36 @@ package typeconv
 
 import "fmt"
 
-var DefaultString = ""
-
-func ToString(value interface{}) string {
-	return ToStringd(value, DefaultString)
+type StringValue struct {
+	A     string // answer
+	IsNil bool
 }
 
-func ToStringd(value interface{}, defaultValue string) string {
+var DefaultString = ""
+
+func ToString(value interface{}, defaultValue ...string) *StringValue {
+	if len(defaultValue) > 0 {
+		return toStringD(value, defaultValue[0])
+	}
+	return toStringD(value, DefaultString)
+}
+
+func toStringD(value interface{}, defaultValue string) *StringValue {
+	r := &StringValue{
+		A:     defaultValue,
+		IsNil: false,
+	}
 	if value == nil {
-		return defaultValue
+		r.IsNil = true
+		return r
 	}
 	switch t := value.(type) {
 	case string:
-		return t
+		r.A = t
+		return r
 	default:
-		return fmt.Sprint(value)
+		r.A = fmt.Sprint(value)
+		return r
 	}
+	return r
 }

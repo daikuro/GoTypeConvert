@@ -31,7 +31,7 @@ func toArrayString(value interface{}, defaultValue *ArrayStringValue) *ArrayStri
 	case []interface{}:
 		r.A = make([]string, len(t))
 		for i, value := range t {
-			r.A[i] = ToStringd(value, "")
+			r.A[i] = toStringD(value, "").A
 		}
 	default:
 		r = defaultValue
