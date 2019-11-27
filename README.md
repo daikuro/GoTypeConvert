@@ -40,7 +40,7 @@ import (
 func main() {
 	var v interface{}
 	v = "test"
-	s := typeconv.ToString(v)
+	s := typeconv.ToString(v).A
 	fmt.Println(s)
 }
 ```
