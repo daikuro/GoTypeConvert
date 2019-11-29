@@ -19,6 +19,23 @@ func ExampleMapToInterfaceNotUseCast() {
 	// testUser
 }
 
+func ExampleMapToStructInterface() {
+	type User struct {
+		Name interface{}
+		Year interface{}
+	}
+	v := &User{}
+	MapToInterface(v, map[string]interface{}{
+		"Name": "testUser",
+		"Year": 1999,
+	})
+	fmt.Println(v.Name)
+	fmt.Println(v.Year)
+	// Output:
+	// testUser
+	// 1999
+}
+
 func ExampleMapToInterfaceOverrideValue() {
 	type User struct {
 		Name string
