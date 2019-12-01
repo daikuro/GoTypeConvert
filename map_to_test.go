@@ -81,6 +81,21 @@ func ExampleMapToInterfaceInt() {
 	// 100
 }
 
+func ExampleMapToInterfaceInt64() {
+	type User struct {
+		Count int64
+	}
+	v := &User{}
+	r := MapToInterface(v, map[string]interface{}{
+		"Count": 100,
+	})
+	fmt.Println(v.Count)
+	fmt.Println(r.Error)
+	// Output:
+	// 0
+	// Error MapToInterface: reflect.Set: value of type int is not assignable to type int64
+}
+
 func ExampleMapToInterface() {
 	type User struct {
 		Name    string
@@ -93,7 +108,7 @@ func ExampleMapToInterface() {
 	})
 
 	// check
-	user := v.(*User)
+	user := v.A.(*User)
 	if user.RegTime != &t {
 		log.Panic("error ", user.RegTime, t)
 	}
@@ -111,7 +126,7 @@ func ExampleMapToInterfaceNilValue() {
 		"Name":    "testUser",
 		"RegTime": nil,
 	})
-	fmt.Println(v.(*User).RegTime)
+	fmt.Println(v.A.(*User).RegTime)
 	// Output:
 	// <nil>
 }

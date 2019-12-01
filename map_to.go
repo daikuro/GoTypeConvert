@@ -1,8 +1,28 @@
 package typeconv
 
-import "reflect"
+import (
+	"github.com/pkg/errors"
+	"reflect"
+)
 
-func MapToInterface(p interface{}, m map[string]interface{}) interface{} {
+type MapToValue struct {
+	A     interface{} // answer
+	IsNil bool
+	Error error
+}
+
+func MapToInterface(p interface{}, m map[string]interface{}) (r *MapToValue) {
+	r = &MapToValue{}
+	defer func() {
+		recv := recover()
+		if recv != nil {
+			r.Error = errors.Errorf("Error MapToInterface: %v", recv)
+		}
+	}()
+	if m == nil {
+		r.IsNil = true
+		return
+	}
 	t := reflect.TypeOf(p).Elem()
 	v := reflect.Indirect(reflect.ValueOf(p))
 	num := t.NumField()
@@ -13,5 +33,6 @@ func MapToInterface(p interface{}, m map[string]interface{}) interface{} {
 		}
 		v.Field(i).Set(reflect.ValueOf(newValue))
 	}
-	return p
+	r.A = p
+	return
 }

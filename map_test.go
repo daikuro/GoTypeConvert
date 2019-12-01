@@ -6,7 +6,7 @@ import (
 
 func ExampleToMap() {
 	d := map[string]interface{}{}
-	a := ToMap(d)
+	a := ToMap(d).A
 	fmt.Println(a)
 	// Output:
 	// map[]
@@ -16,7 +16,7 @@ func ExampleToMapInt() {
 	d := map[string]interface{}{
 		"A": 111,
 	}
-	a := ToMap(d)
+	a := ToMap(d).A
 	fmt.Println(a)
 	// Output:
 	// map[A:111]
@@ -30,7 +30,7 @@ func ExampleToMapStruct() {
 		Name: "TestName",
 	}
 
-	a := ToMap(user)
+	a := ToMap(user).A
 	fmt.Println(a)
 	// Output:
 	// map[Name:TestName]
@@ -46,7 +46,7 @@ func ExampleToMapStructFields() {
 		Id:   100,
 	}
 
-	a := ToMap(user)
+	a := ToMap(user).A
 	fmt.Println(a["Id"], a["Name"])
 	// Output:
 	// 100 TestName
@@ -64,7 +64,7 @@ func ExampleToMapStructNest() {
 		},
 	}
 
-	a := ToMap(user)
+	a := ToMap(user).A
 	//fmt.Println(a["SubUser"].(*User).Name)
 	fmt.Println(a["Name"], a["SubUser"])
 	// Output:
@@ -81,14 +81,14 @@ func ExampleToMapStructPrivateField() {
 		id:   100,
 	}
 
-	a := ToMap(user)
+	a := ToMap(user).A
 	fmt.Println(a)
 	// Output:
 	// map[Name:TestUser]
 }
 
 func ExampleToMapString() {
-	a := ToMap("aaa")
+	a := ToMap("aaa").A
 	fmt.Println(a)
 	// Output:
 	// map[]

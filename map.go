@@ -1,21 +1,38 @@
 package typeconv
 
 import (
+	"github.com/pkg/errors"
 	"reflect"
 )
 
-func ToMap(value interface{}) map[string]interface{} {
+type MapValue struct {
+	A     map[string]interface{} // answer
+	IsNil bool
+	Error error
+}
+
+func ToMap(value interface{}) (r *MapValue) {
+	r = &MapValue{}
+	defer func() {
+		recv := recover()
+		if recv != nil {
+			r.Error = errors.Errorf("Error ToMap: %v", recv)
+		}
+	}()
 	if value == nil {
-		return nil
+		r.IsNil = true
+		return r
 	}
 	switch t := value.(type) {
 	case map[string]interface{}:
-		return t
+		r.A = t
+		return r
 	}
 	if reflect.Indirect(reflect.ValueOf(value)).Kind() != reflect.Struct {
-		return nil
+		return
 	}
-	return toMap(value)
+	r.A = toMap(value)
+	return r
 }
 
 func toMap(b interface{}) map[string]interface{} {
