@@ -11,6 +11,8 @@ type MapToValue struct {
 	Error error
 }
 
+var ArrayStringType = reflect.TypeOf([]string{})
+
 func MapToInterface(p interface{}, m map[string]interface{}) (r *MapToValue) {
 	r = &MapToValue{}
 	defer func() {
@@ -31,7 +33,15 @@ func MapToInterface(p interface{}, m map[string]interface{}) (r *MapToValue) {
 		if newValue == nil {
 			continue
 		}
-		v.Field(i).Set(reflect.ValueOf(newValue))
+		switch newValue.(type) {
+		case []interface{}:
+			switch v.Field(i).Type() {
+			case ArrayStringType:
+				v.Field(i).Set(reflect.ValueOf(ToArrayString(newValue).A))
+			}
+		default:
+			v.Field(i).Set(reflect.ValueOf(newValue))
+		}
 	}
 	r.A = p
 	return

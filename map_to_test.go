@@ -161,3 +161,20 @@ func ExampleMapToInterfaceArrayUseRequestData() {
 	// testUser
 	// [A B]
 }
+
+func ExampleMapToInterfaceArrayInterface() {
+	type User struct {
+		Name  string
+		Items []string
+	}
+	o := &User{}
+	MapToInterface(o, map[string]interface{}{
+		"Name":  "testUser",
+		"Items": []interface{}{"A", "B"},
+	})
+	fmt.Println(o.Name)
+	fmt.Println(o.Items)
+	// Output:
+	// testUser
+	// [A B]
+}

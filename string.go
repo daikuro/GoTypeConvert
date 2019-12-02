@@ -10,17 +10,14 @@ type StringValue struct {
 var DefaultString = ""
 
 func ToString(value interface{}, defaultValue ...string) *StringValue {
-	if len(defaultValue) > 0 {
-		return toStringD(value, defaultValue[0])
-	}
-	return toStringD(value, DefaultString)
-}
-
-func toStringD(value interface{}, defaultValue string) *StringValue {
 	r := &StringValue{
-		A:     defaultValue,
+		A:     DefaultString,
 		IsNil: false,
 	}
+	if len(defaultValue) > 0 {
+		r.A = defaultValue[0]
+	}
+
 	if value == nil {
 		r.IsNil = true
 		return r
