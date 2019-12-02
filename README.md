@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/daikuro/GoTypeConvert.svg?style=svg)](https://circleci.com/gh/daikuro/GoTypeConvert)
 [![codecov](https://codecov.io/gh/daikuro/GoTypeConvert/branch/master/graph/badge.svg)](https://codecov.io/gh/daikuro/GoTypeConvert)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
