@@ -12,15 +12,11 @@ type IntValue struct {
 var DefaultInt = 0
 
 func ToInt(value interface{}, defaultValue ...int) *IntValue {
-	if len(defaultValue) > 0 {
-		return toIntD(value, defaultValue[0])
-	}
-	return toIntD(value, DefaultInt)
-}
-
-func toIntD(value interface{}, defaultValue int) *IntValue {
 	r := &IntValue{
-		A: defaultValue,
+		A: DefaultInt,
+	}
+	if len(defaultValue) > 0 {
+		r.A = defaultValue[0]
 	}
 	switch t := value.(type) {
 	case int:
@@ -40,6 +36,12 @@ func toIntD(value interface{}, defaultValue int) *IntValue {
 		r.A = int(t)
 	case float64:
 		r.A = int(t)
+	case bool:
+		if t {
+			r.A = 1
+		} else {
+			r.A = 0
+		}
 	}
 	return r
 }

@@ -41,3 +41,10 @@ func ExampleInt5() {
 	// 0
 	// strconv.Atoi: parsing "e": invalid syntax
 }
+func ExampleBool() {
+	fmt.Println(ToInt(true, 100).A)
+	fmt.Println(ToInt(false, 100).A)
+	// Output:
+	// 1
+	// 0
+}
