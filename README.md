@@ -1,4 +1,7 @@
+[![codecov](https://codecov.io/gh/daikuro/GoTypeConvert/branch/master/graph/badge.svg)](https://codecov.io/gh/daikuro/GoTypeConvert)
+
 # GoTypeConvert
+
 
 ## Install
 
