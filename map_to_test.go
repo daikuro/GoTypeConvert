@@ -36,6 +36,18 @@ func ExampleMapToStructInterface() {
 	// 1999
 }
 
+func ExampleMapToStructNil() {
+	type User struct {
+		Name interface{}
+		Year interface{}
+	}
+	v := &User{}
+	r := MapToInterface(v, nil)
+	fmt.Println(r.IsNil)
+	// Output:
+	// true
+}
+
 func ExampleMapToInterfaceOverrideValue() {
 	type User struct {
 		Name string
