@@ -130,3 +130,34 @@ func ExampleMapToInterfaceNilValue() {
 	// Output:
 	// <nil>
 }
+
+func ExampleMapToInterfaceArray() {
+	type User struct {
+		Name  string
+		Items []string
+	}
+	v := MapToInterface(&User{}, map[string]interface{}{
+		"Name":  "testUser",
+		"Items": []string{"A", "B"},
+	})
+	fmt.Println(v.A.(*User).Items)
+	// Output:
+	// [A B]
+}
+
+func ExampleMapToInterfaceArrayUseRequestData() {
+	type User struct {
+		Name  string
+		Items []string
+	}
+	o := &User{}
+	MapToInterface(o, map[string]interface{}{
+		"Name":  "testUser",
+		"Items": []string{"A", "B"},
+	})
+	fmt.Println(o.Name)
+	fmt.Println(o.Items)
+	// Output:
+	// testUser
+	// [A B]
+}
