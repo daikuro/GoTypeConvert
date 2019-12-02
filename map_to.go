@@ -12,6 +12,7 @@ type MapToValue struct {
 }
 
 var ArrayStringType = reflect.TypeOf([]string{})
+var ArrayInterfaceType = reflect.TypeOf([]interface{}{})
 
 func MapToInterface(p interface{}, m map[string]interface{}) (r *MapToValue) {
 	r = &MapToValue{}
@@ -38,7 +39,10 @@ func MapToInterface(p interface{}, m map[string]interface{}) (r *MapToValue) {
 			switch v.Field(i).Type() {
 			case ArrayStringType:
 				v.Field(i).Set(reflect.ValueOf(ToArrayString(newValue).A))
+			case ArrayInterfaceType:
+				v.Field(i).Set(reflect.ValueOf(newValue))
 			}
+
 		default:
 			v.Field(i).Set(reflect.ValueOf(newValue))
 		}

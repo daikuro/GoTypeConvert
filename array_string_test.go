@@ -68,3 +68,10 @@ func ExampleToArrayStringFloat64() {
 	// Output:
 	// [1]
 }
+
+func ExampleToArrayStringBool() {
+	a := ToArrayString([]bool{true, false})
+	fmt.Println(a.A)
+	// Output:
+	// [true false]
+}

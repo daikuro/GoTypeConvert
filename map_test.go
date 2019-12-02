@@ -6,10 +6,23 @@ import (
 
 func ExampleToMap() {
 	d := map[string]interface{}{}
-	a := ToMap(d).A
-	fmt.Println(a)
+	a := ToMap(d)
+	fmt.Println(a.A)
+	fmt.Println(a.IsNil)
+	fmt.Println(a.Error)
 	// Output:
 	// map[]
+	// false
+	// <nil>
+}
+
+func ExampleToMapNil() {
+	a := ToMap(nil)
+	fmt.Println(a.A)
+	fmt.Println(a.IsNil)
+	// Output:
+	// map[]
+	// true
 }
 
 func ExampleToMapInt() {
