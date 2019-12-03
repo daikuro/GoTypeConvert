@@ -25,16 +25,6 @@ func ExampleToMapNil() {
 	// true
 }
 
-func ExampleToMapInt() {
-	d := map[string]interface{}{
-		"A": 111,
-	}
-	a := ToMap(d).A
-	fmt.Println(a)
-	// Output:
-	// map[A:111]
-}
-
 func ExampleToMapStruct() {
 	type User struct {
 		Name string
@@ -100,9 +90,38 @@ func ExampleToMapStructPrivateField() {
 	// map[Name:TestUser]
 }
 
-func ExampleToMapString() {
-	a := ToMap("aaa").A
-	fmt.Println(a)
+func ExampleToMapStructNil() {
+	type User struct {
+		Name interface{}
+	}
+	user := &User{
+		Name: nil,
+	}
+	a := ToMap(user)
+	fmt.Println(a.A)
+	fmt.Println(a.IsNil)
+	fmt.Println(a.Error)
 	// Output:
 	// map[]
+	// false
+	// <nil>
+}
+
+func ExampleToMapString() {
+	a := ToMap("aaa")
+	fmt.Println(a.A)
+	fmt.Println(a.NotStruct)
+	// Output:
+	// map[]
+	// true
+}
+
+func ExampleToMapArray() {
+	d := []string{"a", "b"}
+	a := ToMap(d)
+	fmt.Println(a.A)
+	fmt.Println(a.NotStruct)
+	// Output:
+	// map[]
+	// true
 }

@@ -6,9 +6,10 @@ import (
 )
 
 type MapValue struct {
-	A     map[string]interface{} // answer
-	IsNil bool
-	Error error
+	A         map[string]interface{} // answer
+	IsNil     bool
+	NotStruct bool
+	Error     error
 }
 
 func ToMap(value interface{}) (r *MapValue) {
@@ -26,9 +27,11 @@ func ToMap(value interface{}) (r *MapValue) {
 	switch t := value.(type) {
 	case map[string]interface{}:
 		r.A = t
+		r.NotStruct = true
 		return r
 	}
 	if reflect.Indirect(reflect.ValueOf(value)).Kind() != reflect.Struct {
+		r.NotStruct = true
 		return
 	}
 	r.A = toMap(value)
@@ -36,9 +39,6 @@ func ToMap(value interface{}) (r *MapValue) {
 }
 
 func toMap(b interface{}) map[string]interface{} {
-	if b == nil {
-		return nil
-	}
 	t := reflect.TypeOf(b).Elem()
 	v := reflect.ValueOf(b).Elem()
 	num := t.NumField()

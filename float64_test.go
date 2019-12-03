@@ -33,7 +33,7 @@ func ExampleToFloat64Int32() {
 }
 
 func ExampleToFloat64Int64() {
-	f := ToFloat64(int32(10))
+	f := ToFloat64(int64(10))
 	fmt.Println(f.A)
 	// Output:
 	// 10

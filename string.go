@@ -30,5 +30,4 @@ func ToString(value interface{}, defaultValue ...string) *StringValue {
 		r.A = fmt.Sprint(value)
 		return r
 	}
-	return r
 }

@@ -10,16 +10,12 @@ type BoolValue struct {
 var DefaultBool = false
 
 func ToBool(value interface{}, defaultValue ...bool) *BoolValue {
-	if len(defaultValue) > 0 {
-		return ToBoold(value, defaultValue[0])
-	}
-	return ToBoold(value, DefaultBool)
-}
-
-func ToBoold(value interface{}, defaultValue bool) *BoolValue {
 	r := &BoolValue{
-		A:       defaultValue,
+		A:       DefaultBool,
 		NoValue: true,
+	}
+	if len(defaultValue) > 0 {
+		r.A = defaultValue[0]
 	}
 	switch t := value.(type) {
 	case bool:
@@ -40,6 +36,15 @@ func ToBoold(value interface{}, defaultValue bool) *BoolValue {
 			r.A = true
 			r.NoValue = false
 		case 0:
+			r.A = false
+			r.NoValue = false
+		}
+	case float64:
+		switch t {
+		case 1.0:
+			r.A = true
+			r.NoValue = false
+		case 0.0:
 			r.A = false
 			r.NoValue = false
 		}

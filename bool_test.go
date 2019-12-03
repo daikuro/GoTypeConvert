@@ -32,3 +32,23 @@ func ExampleBoolInt0() {
 	// Output:
 	// false
 }
+func ExampleBoolFloat64_1() {
+	fmt.Println(ToBool(1.0).A)
+	// Output:
+	// true
+}
+func ExampleBoolFloat64_0() {
+	fmt.Println(ToBool(0.0).A)
+	// Output:
+	// false
+}
+func ExampleBoolDefaultValueTrue() {
+	fmt.Println(ToBool(nil, true).A)
+	// Output:
+	// true
+}
+func ExampleBoolDefaultValuefalse() {
+	fmt.Println(ToBool(nil, false).A)
+	// Output:
+	// false
+}
