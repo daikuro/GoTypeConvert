@@ -1,16 +1,21 @@
 package typeconv
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"io/ioutil"
+)
 
 type StringValue struct {
 	A     string // answer
 	IsNil bool
+	Error error
 }
 
 var DefaultString = ""
 
-func ToString(value interface{}, defaultValue ...string) *StringValue {
-	r := &StringValue{
+func ToString(value interface{}, defaultValue ...string) (r *StringValue) {
+	r = &StringValue{
 		A:     DefaultString,
 		IsNil: false,
 	}
@@ -29,6 +34,14 @@ func ToString(value interface{}, defaultValue ...string) *StringValue {
 	case []byte:
 		r.A = string(t)
 		return r
+	case io.Reader:
+		b, err := ioutil.ReadAll(t)
+		if err != nil {
+			r.Error = err
+		} else {
+			r.A = string(b)
+		}
+		return
 	default:
 		r.A = fmt.Sprint(value)
 		return r

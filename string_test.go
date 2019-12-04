@@ -2,6 +2,7 @@ package typeconv
 
 import (
 	"fmt"
+	"io"
 )
 
 func ExampleString() {
@@ -42,4 +43,13 @@ func ExampleArrayString() {
 	// Output:
 	// [118 97 108 117 101]
 	// value
+}
+
+func ExampleIoReaderNil() {
+	var r io.Reader
+	s := ToString(r)
+	fmt.Println(s.A)
+	fmt.Println(s.Error)
+	// Output:
+	// <nil>
 }
