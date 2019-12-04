@@ -26,6 +26,9 @@ func ToString(value interface{}, defaultValue ...string) *StringValue {
 	case string:
 		r.A = t
 		return r
+	case []byte:
+		r.A = string(t)
+		return r
 	default:
 		r.A = fmt.Sprint(value)
 		return r

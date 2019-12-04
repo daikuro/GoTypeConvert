@@ -33,3 +33,13 @@ func ExampleEmpty() {
 	//
 	// false
 }
+
+func ExampleArrayString() {
+	bs := []byte("value")
+	s := ToString(bs)
+	fmt.Println(bs)
+	fmt.Println(s.A)
+	// Output:
+	// [118 97 108 117 101]
+	// value
+}
