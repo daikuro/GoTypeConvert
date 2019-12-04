@@ -1,10 +1,13 @@
 package typeconv
 
-import "strings"
+import (
+	"strconv"
+)
 
 type BoolValue struct {
 	A       bool // answer
 	NoValue bool
+	Error   error
 }
 
 var DefaultBool = false
@@ -22,14 +25,8 @@ func ToBool(value interface{}, defaultValue ...bool) *BoolValue {
 		r.A = t
 		r.NoValue = false
 	case string:
-		switch strings.ToLower(t) {
-		case "true":
-			r.A = true
-			r.NoValue = false
-		case "false":
-			r.A = false
-			r.NoValue = false
-		}
+		r.A, r.Error = strconv.ParseBool(t)
+		r.NoValue = false
 	case int:
 		switch t {
 		case 1:
