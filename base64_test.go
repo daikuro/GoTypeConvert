@@ -35,6 +35,12 @@ func ExampleBase64To() {
 	// value
 }
 
+func ExampleBase64ToString() {
+	fmt.Println(Base64To("dmFsdWU=").String())
+	// Output:
+	// value
+}
+
 func ExampleBase64ToInt() {
 	r := Base64To(100)
 	r2 := ToString(r.A)

@@ -41,3 +41,7 @@ func Base64To(v interface{}) (r *Base64ToValue) {
 	}
 	return
 }
+
+func (b *Base64ToValue) String() string {
+	return string(b.A)
+}
