@@ -2,6 +2,7 @@ package typeconv
 
 import (
 	"fmt"
+	"time"
 )
 
 func ExampleToMap() {
@@ -124,4 +125,52 @@ func ExampleToMapArray() {
 	// Output:
 	// map[]
 	// true
+}
+
+func ExampleToMapTime() {
+	type User struct {
+		OrderTime time.Time
+	}
+	user := &User{}
+	a := ToMap(user)
+	if a.Error != nil {
+		fmt.Printf("err %+v", a.Error)
+		//panic(a.Error)
+	}
+	fmt.Println(a.A)
+	// Output:
+	// map[OrderTime:0001-01-01 00:00:00 +0000 UTC]
+}
+
+func ExampleToMapTimePtrNil() {
+	type User struct {
+		OrderTime *time.Time
+	}
+	user := &User{}
+	a := ToMap(user)
+	if a.Error != nil {
+		fmt.Printf("err %+v", a.Error)
+		//panic(a.Error)
+	}
+	fmt.Println(a.A)
+	// Output:
+	// map[]
+}
+
+func ExampleToMapTimePtr() {
+	type User struct {
+		OrderTime *time.Time
+	}
+	t := time.Date(0, 1, 1, 0, 0, 0, 0, time.UTC)
+	user := &User{
+		OrderTime: &t,
+	}
+	a := ToMap(user)
+	if a.Error != nil {
+		fmt.Printf("err %+v", a.Error)
+		//panic(a.Error)
+	}
+	fmt.Println(a.A)
+	// Output:
+	// map[OrderTime:0000-01-01 00:00:00 +0000 UTC]
 }

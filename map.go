@@ -3,6 +3,7 @@ package typeconv
 import (
 	"github.com/pkg/errors"
 	"reflect"
+	"time"
 )
 
 type MapValue struct {
@@ -10,6 +11,16 @@ type MapValue struct {
 	IsNil     bool
 	NotStruct bool
 	Error     error
+}
+
+type SetMapDirectFunc = func(name string, v interface{}) bool
+
+var DefaultMapSet = func(name string, v interface{}) bool {
+	switch v.(type) {
+	case time.Time, *time.Time:
+		return true
+	}
+	return false
 }
 
 func ToMap(value interface{}) (r *MapValue) {
@@ -34,22 +45,30 @@ func ToMap(value interface{}) (r *MapValue) {
 		r.NotStruct = true
 		return
 	}
-	r.A = toMap(value)
+	r.A = toMap(value, DefaultMapSet)
 	return r
 }
 
-func toMap(b interface{}) map[string]interface{} {
-	t := reflect.TypeOf(b).Elem()
-	v := reflect.ValueOf(b).Elem()
-	num := t.NumField()
+func toMap(b interface{}, defaultSet SetMapDirectFunc) map[string]interface{} {
 	m := map[string]interface{}{}
+	t := reflect.TypeOf(b)
+	switch t.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Ptr, reflect.Slice:
+		t = t.Elem()
+	}
+	v := reflect.ValueOf(b)
+	switch v.Kind() {
+	case reflect.Interface, reflect.Ptr:
+		v = v.Elem()
+	}
+	num := t.NumField()
 	for i := 0; i < num; i++ {
 		field := t.Field(i)
+		name := field.Name
 		vf := v.Field(i)
 		if !vf.CanSet() { // private variable
 			continue
 		}
-		name := field.Name
 		vi := vf.Interface()
 		if vi == nil {
 			continue
@@ -62,7 +81,11 @@ func toMap(b interface{}) map[string]interface{} {
 			m[name] = vi
 			continue
 		}
-		vi = toMap(vi)
+		if defaultSet(name, vi) {
+			m[name] = vi
+			continue
+		}
+		vi = toMap(vi, defaultSet)
 		m[name] = vi
 	}
 	return m
