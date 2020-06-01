@@ -77,3 +77,12 @@ func ToArrayString(value interface{}, defaultValue ...[]string) *ArrayStringValu
 	}
 	return r
 }
+
+func ArrayStringContains(arr []string, str string) bool {
+	for _, v := range arr {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}
