@@ -75,3 +75,19 @@ func ExampleToArrayStringBool() {
 	// Output:
 	// [true false]
 }
+
+func ExampleArrayStringContains() {
+	a := []string{"aaa", "bbb", "ccc"}
+    r := ArrayStringContains(a, "bbb")
+    fmt.Println(r)
+    // Output:
+    // true
+}
+
+func ExampleArrayStringContainsFalse() {
+	a := []string{"aaa", "bbb", "ccc"}
+    r := ArrayStringContains(a, "ddd")
+    fmt.Println(r)
+    // Output:
+    // false
+}
