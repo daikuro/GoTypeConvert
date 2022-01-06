@@ -224,3 +224,48 @@ func ExampleMapToInterfaceArrayInterfaceStringInt() {
 	// testUser
 	// [A B 1]
 }
+
+func ExampleTagMap() {
+	type User struct {
+		Name  string   `json:"name"`
+		Items []string `json:"items"`
+	}
+	o := &User{
+		Name:  "testUser",
+		Items: []string{"A", "B", "1"},
+	}
+	r := ToTagMap(o, "json")
+	fmt.Println(r.A)
+	// Output:
+	// map[items:[A B 1] name:testUser]
+}
+
+func ExampleTagMapNoSet() {
+	type User struct {
+		Name  string
+		Items []string `json:"items"`
+	}
+	o := &User{
+		Name:  "testUser",
+		Items: []string{"A", "B", "1"},
+	}
+	r := ToTagMap(o, "json")
+	fmt.Println(r.A)
+	// Output:
+	// map[Name:testUser items:[A B 1]]
+}
+
+func ExampleTagMapSkip() {
+	type User struct {
+		Name  string   `json:"-"`
+		Items []string `json:"items"`
+	}
+	o := &User{
+		Name:  "testUser",
+		Items: []string{"A", "B", "1"},
+	}
+	r := ToTagMap(o, "json")
+	fmt.Println(r.A)
+	// Output:
+	// map[items:[A B 1]]
+}

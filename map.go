@@ -3,6 +3,7 @@ package typeconv
 import (
 	"github.com/pkg/errors"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -24,6 +25,10 @@ var DefaultMapSet = func(name string, v interface{}) bool {
 }
 
 func ToMap(value interface{}) (r *MapValue) {
+	return ToTagMap(value, "")
+}
+
+func ToTagMap(value interface{}, tag string) (r *MapValue) {
 	r = &MapValue{}
 	defer func() {
 		recv := recover()
@@ -45,11 +50,11 @@ func ToMap(value interface{}) (r *MapValue) {
 		r.NotStruct = true
 		return
 	}
-	r.A = toMap(value, DefaultMapSet)
+	r.A = toMap(value, DefaultMapSet, tag)
 	return r
 }
 
-func toMap(b interface{}, defaultSet SetMapDirectFunc) map[string]interface{} {
+func toMap(b interface{}, defaultSet SetMapDirectFunc, tag string) map[string]interface{} {
 	m := map[string]interface{}{}
 	t := reflect.TypeOf(b)
 	switch t.Kind() {
@@ -65,6 +70,16 @@ func toMap(b interface{}, defaultSet SetMapDirectFunc) map[string]interface{} {
 	for i := 0; i < num; i++ {
 		field := t.Field(i)
 		name := field.Name
+		if tag != "" {
+			v, _ := field.Tag.Lookup(tag)
+			if v != "" {
+				ss := strings.Split(v, ",")
+				name = ss[0]
+				if name == "-" {
+					continue
+				}
+			}
+		}
 		vf := v.Field(i)
 		if !vf.CanSet() { // private variable
 			continue
@@ -85,7 +100,7 @@ func toMap(b interface{}, defaultSet SetMapDirectFunc) map[string]interface{} {
 			m[name] = vi
 			continue
 		}
-		vi = toMap(vi, defaultSet)
+		vi = toMap(vi, defaultSet, tag)
 		m[name] = vi
 	}
 	return m
